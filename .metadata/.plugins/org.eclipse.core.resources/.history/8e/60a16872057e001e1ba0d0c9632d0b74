@@ -1,0 +1,55 @@
+package com.test;
+
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
+import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
+
+public class ExtentReportDemo {
+	WebDriver driver;
+		public static void main(String[] args) {
+			ExtentHtmlReporter htmlReporter=new ExtentHtmlReporter("report.html");
+			ExtentReports reports=new ExtentReports();
+			reports.attachReporter(htmlReporter);
+			ExtentTest test1=reports.createTest("Demoblaze page");
+			
+			System.setProperty("webdriver.chrome.driver", "C:\\Drivers\\chromedriver.exe");
+			WebDriver driver=new ChromeDriver();
+			test1.log(Status.INFO, "test starting");
+			 driver.get("https://demoblaze.com/");
+		        driver.findElement(By.xpath("//a[text()='Log in']")).click();
+		        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(4));
+
+		        driver.findElement(By.xpath("//input[@id='loginusername']")).sendKeys("DemoAdmin2");
+		        driver.findElement(By.xpath("//input[@id='loginpassword']")).sendKeys("admin@123");
+		        driver.findElement(By.xpath("//button[text()='Log in']")).click();
+		        test1.log(Status.INFO, "login successful");
+		        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(25));
+
+		        String expectedTitle="PRODUCT STORE";
+		        String actualTitle=driver.getTitle();
+		        if(expectedTitle.equals(actualTitle)) {
+		        	System.out.println("title is:-"+actualTitle);
+		        	test1.info("title matched successfully");
+		        }
+		        else {
+		        	test1.info("sorry..! title not matched");
+		        }
+		       // driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(25));
+		        driver.close();
+		        driver.quit();
+		        test1.info("application closed");
+		        reports.flush();
+			
+		}
+		
+}

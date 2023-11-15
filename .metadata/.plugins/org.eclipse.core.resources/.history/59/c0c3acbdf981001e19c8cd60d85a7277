@@ -1,0 +1,20 @@
+package tests;
+
+import org.testng.annotations.BeforeSuite;
+
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
+
+public class ExtentReportDemo {
+	@BeforeSuite
+	public void reportSetup() {
+	
+
+ ExtentReports extent = new ExtentReports();
+ ExtentHtmlReporter reports=new ExtentHtmlReporter("reports.html");
+ .attachReporter(reports);
+// ExtentTest test1=reports.
+ 
+}
+}
